@@ -108,6 +108,27 @@ def schedule_fallback(draws_data):
         "source": "Schedule roll-forward (Tue/Thu/Sat, close 21:15 HKT); HKJC GraphQL unreachable at fetch time, estimated prize not available (shown as —).",
     }
 
+def keep_existing_next(draws_data):
+    """Preserve a manually verified next_draw.json when GraphQL is unreachable
+    (e.g. a snowball draw moved off the Tue/Thu/Sat grid, so the roll-forward
+    fallback would name a cancelled date). Keep it only if it names the
+    immediate next draw after the latest result and its date has not passed."""
+    try:
+        with open(os.path.join(HERE, "next_draw.json"), encoding="utf-8") as f:
+            cur = json.load(f)
+        last = draws_data["draws"][-1]
+        yy, seq = (int(x) for x in last["id"].split("/"))
+        if cur.get("draw_no") != f"{yy:02d}/{seq + 1:03d}":
+            return None
+        if date.fromisoformat(cur["date"]) < date.today():
+            return None
+        if "Kept by nightly updater" not in cur.get("source", ""):
+            cur["source"] = (cur.get("source", "") +
+                " [Kept by nightly updater: GraphQL unreachable; entry matches next draw and is still upcoming.]").strip()
+        return cur
+    except Exception:
+        return None
+
 def main():
     draws = refresh_draws()
     try:
@@ -116,7 +137,7 @@ def main():
         print(f"graphql failed: {type(e).__name__} {str(e)[:120]}", file=sys.stderr)
         nxt = None
     if nxt is None:
-        nxt = schedule_fallback(draws)
+        nxt = keep_existing_next(draws) or schedule_fallback(draws)
     with open(os.path.join(HERE, "next_draw.json"), "w", encoding="utf-8") as f:
         json.dump(nxt, f, ensure_ascii=False, indent=2)
     print(f"draws: {draws['meta']['count']} to {draws['meta']['latest']}; next: {nxt['draw_no']} {nxt['date']} est={nxt['est_first_prize']}")

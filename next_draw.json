@@ -1,10 +1,10 @@
 {
-  "close_at": "2026-11-24T21:15:00+08:00",
-  "date": "2026-11-24",
-  "draw_no": "26/124",
-  "est_first_prize": 73000000,
-  "jackpot": 55000000,
-  "snowball_name": "幸運二金多寶",
-  "source": "Final tier confirmed per HKJC 14:00 assessment on Mon 2026-11-23: mid tier (cumulative turnover HK$60M-<70M) -> snowball HK$55M, estimated first prize HK$73M. Verified live on the HKJC Mark Six page (bet.hkjc.com/marksix/) at ~14:28 HKT 2026-11-23: turnover shown $65,993,655 (live cumulative figure at time of check, still below the $70M threshold; HKJC does not publish the 14:00 snapshot separately), jackpot $55,000,000, estimated 1st division prize fund $73,000,000; banner reads '幸運二金多寶 估計頭獎基金 7300萬'. Draw 26/124 Lucky Two Snowball, Tue 2026-11-24, draw 21:30, sales close 21:15. [Kept by nightly updater: GraphQL unreachable; entry matches next draw and is still upcoming.]",
-  "turnover": 65993655
+  "draw_no": "26/125",
+  "date": "2026-11-26",
+  "close_at": "2026-11-26T21:15:00+08:00",
+  "est_first_prize": null,
+  "jackpot": 0,
+  "snowball_name": "",
+  "turnover": 0,
+  "source": "Schedule roll-forward (Tue/Thu/Sat, close 21:15 HKT); HKJC GraphQL unreachable at fetch time, estimated prize not available (shown as —)."
 }
